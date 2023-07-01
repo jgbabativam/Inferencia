@@ -25,6 +25,27 @@ espacio <- Support(N = nrow(datos), n = 3) |>
            mutate(muestra = 1:n()) |> 
            pivot_longer(cols = V1:V3,
                         names_to = "etiqueta",
-                        values_to = "individuo")
+                        values_to = "individuo") |> 
+           left_join(variable, by = "individuo")
 
+
+estimacion <- espacio |> 
+              group_by(muestra) |> 
+              summarise(media = mean(cuanto_se_gasto_en_la_ultima_semana),
+                        sd = sd(cuanto_se_gasto_en_la_ultima_semana)) |> 
+              mutate(li = media + qnorm(0.025)*sd,
+                     ls = media + qnorm(0.975)*sd) |> 
+              mutate(Indicador = ifelse(li < parametro & ls > parametro,
+                                        1, 0))
+
+ET <- mean(estimacion$media)  
+
+confianza <- mean(estimacion$Indicador)
+
+
+
+
+
+  
+  
 
