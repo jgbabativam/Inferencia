@@ -42,10 +42,35 @@ ET <- mean(estimacion$media)
 
 confianza <- mean(estimacion$Indicador)
 
+############## Bootstrap
 
 
+muestra <- datos |> 
+           rep_sample_n(size = nrow(datos),
+                        replace = TRUE,
+                        reps = 10000) |> 
+           group_by(replicate) |> 
+           summarise(media = mean(cuanto_se_gasto_en_la_ultima_semana))
 
 
+q1 <- quantile(muestra$media, 0.025)
+q2 <- quantile(muestra$media, 0.975)
+
+
+se <- sd(muestra$media)
+media <- mean(muestra$media)
   
-  
+li <- media + qnorm(0.025)*se
+ls <- media + qnorm(0.975)*se  
+
+
+
+ggplot(data = muestra, aes(x = media)) +
+  geom_histogram(color = "white",
+                 fill = "lightblue",
+                 binwidth = 20000) +
+  geom_vline(xintercept = q1, linetype = 2, color = "blue") +
+  geom_vline(xintercept = q2, linetype = 2, color = "blue") +
+  geom_vline(xintercept = li, linetype = 2, color = "red") +
+  geom_vline(xintercept = ls, linetype = 2, color = "red")
 
