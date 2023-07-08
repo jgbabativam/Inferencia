@@ -72,3 +72,20 @@ t.test(formula = tiempo ~ condicion, data = datos,
 
 #Intervalo 98% (M1 - M2): (1.62 ; 8.39)
 
+#-------------------------------------------
+#-------------------------------------------
+# INTERVALO DE CONFIANZA PARA UNA PROPORCIÓN
+
+datosp <- datos |> 
+          mutate(Exito = factor(ifelse(tiempo > 60, 1, 2),
+                                levels = c(1, 2),
+                                labels = c(">60", "<=60")
+                                ))
+
+
+
+
+
+
+
+
