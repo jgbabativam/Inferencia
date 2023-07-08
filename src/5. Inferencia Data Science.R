@@ -102,7 +102,10 @@ prop.test(x = c(6, 2),
           conf.level = 0.95)
 
 #IC del 95% para P1 - P2: (-0.09 ; 0.49)
-#
+# Como el cero pertenece al IC, entonces no existe
+# evidencia estadística para pensar que la proporción
+# de hojas con tiempos de secado superiores a 60 min. se diferencian por
+# condición ambiental
 
 
 
