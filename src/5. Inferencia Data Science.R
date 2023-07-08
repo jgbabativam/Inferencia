@@ -46,5 +46,8 @@ ni <- tapply(datos$tiempo, datos$condicion, length)
 cociente <- s2[1]/s2[2]
 
 li <- cociente * 1/qf(0.975, ni[1] - 1, ni[2] - 1)
+ls <- cociente * qf(0.975, ni[2] - 1, ni[1] - 1)
 
-
+li; ls
+#Debido a que el valor 1 pertenece al IC, entonces se puede suponer que las 
+#varianzas son iguales
