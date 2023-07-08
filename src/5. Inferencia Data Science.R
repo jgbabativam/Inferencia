@@ -213,6 +213,46 @@ diff_p <- datosp |>
                     order = c("Cond1", "Cond2"))
 
 
+dev.off()
+dev.new()
+
+diff_p |> 
+  visualise()
+
+# Intervalo de confianza p_1 - p_2: Método percentil
+
+ic_diff_p1p2 <- diff_p |> 
+                get_ci(level = 0.95, type = "percentile")
+
+
+diff_p |> 
+  visualise() +
+  shade_ci(endpoints = ic_diff_p1p2) +
+  geom_vline(xintercept = 0, linetype = 2)
+  
+  
+# Intervalo de confianza p_1 - p_2: Método error estándar
+
+table(datosp$Exito, datosp$condicion)
+
+p1=6/20; p2=2/20
+p1-p2
+
+estim_puntual <- datosp |> 
+                 observe(formula = Exito ~ condicion,
+                         success = ">60",
+                         stat = "diff in props",
+                         order = c("Cond1", "Cond2"))
+
+
+ic_ee_diff_p1p2 <- diff_p |> 
+                   get_ci(level = 0.95, type = "se", point_estimate = estim_puntual)
+
+
+diff_p |> 
+  visualise() +
+  shade_ci(endpoints = ic_ee_diff_p1p2) +
+  geom_vline(xintercept = 0, linetype = 2)
 
 
 
