@@ -260,13 +260,52 @@ diff_p |>
 
 # Diferencia de medias
 
+##----- M1 - M2
 
 
+diff_m <- datosp |> 
+          specify(formula = tiempo ~ condicion) |> 
+          generate(reps = 10000, type = "bootstrap") |> 
+          calculate(stat = "diff in means",
+                    order = c("Cond1", "Cond2"))
+  
+
+tapply(datosp$tiempo, datosp$condicion, mean)
+
+57.755 - 52.750
+
+estim_puntual <- datosp |> 
+                 observe(formula = tiempo ~ condicion,
+                         stat = "diff in means",
+                         order = c("Cond1", "Cond2"))
 
 
+# Método del percentil
+
+ic_perc_diffm <- diff_m |> 
+                 get_ci(level = 0.98, type = "percentile")
 
 
+diff_m |> 
+  visualise() +
+  shade_ci(endpoints = ic_perc_diffm, color = "hotpink") +
+  geom_vline(xintercept = 0, linetype = 2)
 
+
+# Método del error estándar
+
+ic_ee_diffm <- diff_m |> 
+               get_ci(level = 0.98, type = "se", point_estimate = estim_puntual)
+
+
+diff_m |> 
+  visualise() +
+  shade_ci(endpoints = ic_ee_diffm, color = "blue") +
+  geom_vline(xintercept = 0, linetype = 2) +
+  labs(title = "Intervalo de confianza para M1 - M2",
+       x =  "Diferencia de medias",
+       y = "Frecuencia") +
+  theme_bw()
 
 
 
