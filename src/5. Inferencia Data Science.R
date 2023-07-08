@@ -42,7 +42,7 @@ s2 <- tapply(datos$tiempo, datos$condicion, var)
 xb <- tapply(datos$tiempo, datos$condicion, mean)
 de <- tapply(datos$tiempo, datos$condicion, sd)
 
-
+cociente <- s2[1]/s2[2]
 
 
 
