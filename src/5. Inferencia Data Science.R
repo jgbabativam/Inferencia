@@ -121,10 +121,31 @@ datosp |>
 
 Tn <- datosp |> 
       specify(formula = tiempo ~ NULL) |> 
-      generate(reps = 10000, type = "bootstrap")
+      generate(reps = 10000, type = "bootstrap") |> 
+      calculate(stat = "mean")
   
 
+#Visualizar la distribución de Tn = Xbarra
+
+Tn |> 
+  visualise()
+
+# Ahora creamos el intervalo de confianza
+
+# Usando el método del percentil
+Tn |> 
+  get_confidence_interval(level = 0.95, type = "percentile")
+
+ic_perc <- Tn |> 
+           get_ci(level = 0.95, type = "percentile")
+
+xbarra <- mean(datosp$tiempo)
 
 
+Tn |> 
+  visualise() + 
+  shade_ci(endpoints = ic_perc, color = "hotpink", fill = "khaki") +
+  geom_vline(xintercept = xbarra, linetype = 2)
 
+# Usando el método del error estándar
 
