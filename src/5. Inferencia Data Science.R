@@ -255,6 +255,10 @@ diff_p |>
   geom_vline(xintercept = 0, linetype = 2)
 
 
+########################################################
+#####              PROBLEMAS DE DOS MUESTRAS
+
+# Diferencia de medias
 
 
 
