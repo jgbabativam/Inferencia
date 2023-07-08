@@ -175,5 +175,30 @@ Pn <- datosp |>
 Pn |> 
   visualise()
 
+# Intervalo de confianza con el método del error estándar
+n <- nrow(datosp)
+Exitos <- table(datosp$Exito)[">60"]
+  
+p_est <- Exitos/n
+
+ic_ee_p <- Pn |> 
+           get_ci(level = 0.95, type = "se", point_estimate = p_est)
+
+
+# Intervalo de confianza con el método del percentil
+
+ic_perc_p <- Pn |> 
+             get_ci(level = 0.95, type = "percentile")
+
+#Visualización
+
+Pn |> 
+  visualise() +
+  shade_ci(endpoints = ic_ee_p, color = "blue", fill = "khaki") +
+  shade_ci(endpoints = ic_perc_p, color = "red", fill = "white") +
+  labs(title = "Intervalo de confianza para la proporción") +
+  theme_bw()
+
+
 
 
