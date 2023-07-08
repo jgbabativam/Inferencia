@@ -165,8 +165,15 @@ Tn |>
 ###############################################
 ### BOOTSTRAP: INTERVALO DE CONFIANZA PARA LA PROPORCIÓN
 
+set.seed(12345)
+Pn <- datosp |> 
+      specify(response = Exito, success = ">60") |> 
+      generate(reps = 10000, type = "bootstrap") |> 
+      calculate(stat = "prop")
 
 
+Pn |> 
+  visualise()
 
 
 
