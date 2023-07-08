@@ -82,10 +82,11 @@ datosp <- datos |>
                                 labels = c(">60", "<=60")
                                 ))
 
+Exitos <- table(datosp$Exito)[">60"]
 
+prop.test(x = Exitos, n = nrow(datosp), conf.level = 0.95)
 
-
-
-
+#Intervalo de confianza para P: (9.6% a 36.1%)
+# ¿Cuánto es el margen de error?: 
 
 
