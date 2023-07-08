@@ -50,4 +50,11 @@ ls <- cociente * qf(0.975, ni[2] - 1, ni[1] - 1)
 
 li; ls
 #Debido a que el valor 1 pertenece al IC, entonces se puede suponer que las 
-#varianzas son iguales
+#varianzas son iguales. 
+
+var.test(formula = tiempo ~ condicion, data = datos,
+         conf.level = 0.95)
+
+
+# VARIANZAS IGUALES: INTERVALO PARA M1 - M2
+
