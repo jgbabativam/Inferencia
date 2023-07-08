@@ -200,5 +200,29 @@ Pn |>
   theme_bw()
 
 
+########################################################
+#####              PROBLEMAS DE DOS MUESTRAS
+
+# Diferencia de proporciones
+
+diff_p <- datosp |> 
+          specify(formula = Exito ~ condicion,
+                  success = ">60") |> 
+          generate(reps = 10000, type = "bootstrap") |> 
+          calculate(stat = "diff in props",
+                    order = c("Cond1", "Cond2"))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
