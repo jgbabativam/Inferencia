@@ -107,5 +107,24 @@ prop.test(x = c(6, 2),
 # de hojas con tiempos de secado superiores a 60 min. se diferencian por
 # condición ambiental
 
+### Intervalo para M.
+t.test(datos$tiempo, conf.level = 0.98)
+
+
+########################################
+#### BOOTSTRAP
+
+datosp |> 
+  specify(response = tiempo)
+
+#--- Intervalo para la Media
+
+Tn <- datosp |> 
+      specify(formula = tiempo ~ NULL) |> 
+      generate(reps = 10000, type = "bootstrap")
+  
+
+
+
 
 
