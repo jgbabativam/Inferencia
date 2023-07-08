@@ -108,7 +108,7 @@ prop.test(x = c(6, 2),
 # condición ambiental
 
 ### Intervalo para M.
-t.test(datos$tiempo, conf.level = 0.98)
+t.test(datos$tiempo, conf.level = 0.95)
 
 
 ########################################
@@ -148,4 +148,25 @@ Tn |>
   geom_vline(xintercept = xbarra, linetype = 2)
 
 # Usando el método del error estándar
+
+ic_ee <- Tn |> 
+         get_ci(level = 0.95, type = "se", point_estimate = xbarra)
+
+
+#--- Visualización y comparación de IC
+
+Tn |> 
+  visualise() +
+  shade_ci(endpoints = ic_ee, color = "blue") +
+  shade_ci(endpoints = ic_perc, color = "hotpink") +
+  theme_bw()
+
+
+###############################################
+### BOOTSTRAP: INTERVALO DE CONFIANZA PARA LA PROPORCIÓN
+
+
+
+
+
 
