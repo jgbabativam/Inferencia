@@ -41,8 +41,10 @@ summary(modelo1)
 s2 <- tapply(datos$tiempo, datos$condicion, var)
 xb <- tapply(datos$tiempo, datos$condicion, mean)
 de <- tapply(datos$tiempo, datos$condicion, sd)
+ni <- tapply(datos$tiempo, datos$condicion, length)
 
 cociente <- s2[1]/s2[2]
 
+li <- cociente * 1/qf(0.975, ni[1] - 1, ni[2] - 1)
 
 
