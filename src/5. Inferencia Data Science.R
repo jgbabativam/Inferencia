@@ -31,4 +31,18 @@ datos$condicion <- factor(datos$condicion,
 
 # Forma 1 para comparar M1 y M2: ANOVA
 
+modelo1 <- aov(formula = tiempo ~ condicion, data = datos)
+summary(modelo1)
+
+#---- Intervalo de confianza para M1 - M2
+
+#¿Las varianzas son iguales?
+
+s2 <- tapply(datos$tiempo, datos$condicion, var)
+xb <- tapply(datos$tiempo, datos$condicion, mean)
+de <- tapply(datos$tiempo, datos$condicion, sd)
+
+
+
+
 
