@@ -87,6 +87,22 @@ Exitos <- table(datosp$Exito)[">60"]
 prop.test(x = Exitos, n = nrow(datosp), conf.level = 0.95)
 
 #Intervalo de confianza para P: (9.6% a 36.1%)
-# ¿Cuánto es el margen de error?: 
+# ¿Cuánto es el margen de error?: 13.2%
+(ME <- (0.36137437 - 0.09614522) / 2)
+
+
+#-------------------------------------------
+#-------------------------------------------
+# INTERVALO DE CONFIANZA DIFERENCIA DE P1 - P2
+
+table(datosp$Exito, datosp$condicion)
+
+prop.test(x = c(6, 2),
+          n = c(20, 20),
+          conf.level = 0.95)
+
+#IC del 95% para P1 - P2: (-0.09 ; 0.49)
+#
+
 
 
