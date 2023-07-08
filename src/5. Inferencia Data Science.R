@@ -58,3 +58,17 @@ var.test(formula = tiempo ~ condicion, data = datos,
 
 # VARIANZAS IGUALES: INTERVALO PARA M1 - M2
 
+t.test(formula = tiempo ~ condicion, data = datos,
+       var.equal = TRUE,
+       conf.level = 0.98)
+
+#Intervalo 98% (M1 - M2): (1.64 ; 8.37) 
+
+# VARIANZAS NO IGUALES: INTERVALO PARA M1 - M2
+
+t.test(formula = tiempo ~ condicion, data = datos,
+       var.equal = FALSE,
+       conf.level = 0.98)
+
+#Intervalo 98% (M1 - M2): (1.62 ; 8.39)
+
