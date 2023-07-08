@@ -29,6 +29,6 @@ datos$condicion <- factor(datos$condicion,
                           labels = c("Cond1", "Cond2"))
 
 
-
+# Forma 1 para comparar M1 y M2: ANOVA
 
 
