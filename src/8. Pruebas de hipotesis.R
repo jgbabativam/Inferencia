@@ -25,6 +25,23 @@ datos$condicion <- factor(datos$condicion,
                           levels = c(1, 2),
                           labels = c("Cond1", "cond2"))
 
+##---- Paso 1
 #### Revisar si las varianzas se pueden considerar iguales
 var.test(datos$tiempo ~ datos$condicion)
 # El IC contiene el valor 1, de manera que se pueden suponer iguales
+
+#---- Paso 2
+#### Probar Hipótesis
+#   Ho: M1 - M2 = 0
+#   Ha: M1 - M2 != 0  -- Bilateral
+
+t.test(datos$tiempo ~ datos$condicion,
+       var.equal = TRUE,
+       mu = 0,
+       alternative = "two.sided")
+
+
+
+
+
+
