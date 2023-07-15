@@ -17,3 +17,14 @@ datos <- data.frame(
                  53.0, 53.8, 51.6, 53.6, 42.9, 52.0, 55.1, 57.1, 62.8, 54.8)) |> 
       mutate(condicion = 2)  
   )
+
+
+glimpse(datos)
+
+datos$condicion <- factor(datos$condicion,
+                          levels = c(1, 2),
+                          labels = c("Cond1", "cond2"))
+
+#### Revisar si las varianzas se pueden considerar iguales
+var.test(datos$tiempo ~ datos$condicion)
+# El IC contiene el valor 1, de manera que se pueden suponer iguales
