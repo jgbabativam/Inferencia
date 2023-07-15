@@ -135,16 +135,45 @@ distPer <- promotions |>
                    success = "promoted") |> 
            hypothesise(null = "independence") |> 
            generate(reps = 10000, type = "permute") |> 
-           calculate(stat = "dif in props",
+           calculate(stat = "diff in props",
                      order = c("male", "female"))
 
+observado <- promotions |> 
+            observe(formula = decision~gender, 
+                    success = "promoted",
+                    stat = "diff in props",
+                    order = c("male", "female"))
 
 
 
+distPer |> 
+  visualise(bins = 10) +
+  shade_p_value(obs_stat = observado, direction = "greater") +
+  labs(title = "Distribución de permutación")
 
 
+distPer |> 
+  get_p_value(obs_stat = observado, 
+              direction = "greater")
 
 
+##### Comparación con el IC
+
+distNull <- promotions |> 
+            specify(formula = decision ~ gender, 
+                    success = "promoted") |> 
+            generate(reps = 10000, type = "bootstrap") |> 
+            calculate(stat = "diff in props",
+                      order = c("male", "female"))
+
+
+ic <- distNull |> 
+  get_ci(level = 0.95, type = "percentile")
+
+distNull |> 
+  visualise(bins = 10) +
+  shade_ci(endpoints = ic) +
+  geom_vline(xintercept = 0, linetype = 2)
 
 
 
