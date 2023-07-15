@@ -42,6 +42,37 @@ t.test(datos$tiempo ~ datos$condicion,
 
 
 
+xb <- tapply(datos$tiempo, datos$condicion, mean)
+s2 <- tapply(datos$tiempo, datos$condicion, var)
+n <- tapply(datos$tiempo, datos$condicion, length)
+
+sp2 <- ((n[1]-1)*s2[1] + (n[2] - 1)*s2[2]) /(n[1] + n[2] - 2)
+
+Test = (xb[1] - xb[2])/(sqrt(sp2)*sqrt(1/n[1] + 1/n[2]))
+
+2*pt(Test, df = n[1] + n[2] - 2, lower.tail = F)
+
+
+####  PRUEBA MULTINOMIAL
+####   chi-cuadrado Pearson
+
+# Ho: p =  c(9/16, 3/16, 3/16, 1/16)
+# Ha p !=  c(9/16, 3/16, 3/16, 1/16)
+
+
+observados <- c(315, 101, 108, 32)
+n <- sum(observados)
+
+res <- chisq.test(x = observados,
+                  p = c(9/16, 3/16, 3/16, 1/16))
+res
+
+pvalue <- pchisq(q = 0.47, df = length(observados) - 1, 
+                 lower.tail = FALSE)
+
+
+
+
 
 
 
