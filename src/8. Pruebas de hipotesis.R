@@ -72,6 +72,86 @@ pvalue <- pchisq(q = 0.47, df = length(observados) - 1,
 
 
 
+###################################
+####  EJERCICIO DE CARGOS: PAPER 1974
+
+#### Hipótesis 
+#### Existe discriminación por sexo 
+
+### Ho: P1 - P2 = 0   (Independencia)
+### Ha: P1 - P2 !=0   (Dependencia)
+
+library(moderndive)
+library(infer)
+
+data("promotions")
+View(promotions)
+
+table(promotions$decision, promotions$gender)
+
+promotions |> 
+  ggplot(aes(x = gender, fill = decision)) +
+  geom_bar(position = "fill") +
+  labs(y = "Proporción")
+
+# Estos resultados son evidencia suficiente para concluir
+# que existe una discriminación de género?
+
+# Prueba Multinomial
+# Ho: p  = c(1/2, 1/2)
+# Ha: p != c(1/2, 1/2)
+
+# Estadístico Chi-cuadrado
+
+observados <- c(21, 14)
+res <- chisq.test(x = observados,
+                  p = c(1/2, 1/2))
+
+res
+
+# Prueba de permutación
+
+set.seed(20230715)
+
+per1 <- promotions |> 
+        mutate(aleatorio = runif(48)) |> 
+        arrange(aleatorio) |> 
+        select(gender) |> 
+        rename(per1 = gender)
+
+
+u1 <- bind_cols(promotions, per1)
+
+u1 |> 
+  ggplot(aes(x = per1, fill = decision)) +
+  geom_bar(position = "fill") +
+  labs(y = "Proporción")
+
+###----- Prueba de permutación
+
+
+distPer <- promotions |> 
+           specify(formula = decision ~ gender, 
+                   success = "promoted") |> 
+           hypothesise(null = "independence") |> 
+           generate(reps = 10000, type = "permute") |> 
+           calculate(stat = "dif in props",
+                     order = c("male", "female"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
