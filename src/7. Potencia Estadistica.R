@@ -21,3 +21,7 @@ for(i in 1:1000){
   
 }
 
+pvalues <- unlist(res) |> as_tibble() |> 
+           mutate(rechazo = ifelse(value < 0.05, 1, 0))
+
+100*mean(pvalues$rechazo)
