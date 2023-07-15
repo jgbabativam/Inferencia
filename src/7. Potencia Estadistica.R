@@ -62,3 +62,46 @@ potencia |>
   geom_hline(yintercept = 0.85, linetype = 2)
 
 
+###### Qué pasa si los datos NO se distribuyen normal???
+
+set.seed(20230715)
+x <- rexp(10000, rate = 1) |> as_tibble()
+
+hist(x$value)
+mean(x$value)
+
+res <- list()
+
+for(i in 1:1000){
+  set.seed(i)
+  muestra <- x |> 
+    sample_n(size = 50)
+  
+  a <- t.test(muestra$value, mu = 1, 
+              alternative = "greater")
+  
+  res[[i]] <- a$p.value
+  
+}
+
+pvalues <- unlist(res) |> as_tibble() |> 
+  mutate(rechazo = ifelse(value < 0.05, 1, 0))
+
+100*mean(pvalues$rechazo)
+
+#alpha <- 100*mean(pvalues$rechazo)
+
+alpha_50 <- 4.5;
+alpha_100 <- 5.3;
+
+
+
+
+
+
+
+
+
+
+
+
