@@ -28,6 +28,72 @@ shapiro.test(combust$x)
 ###################################################
 ####  PRUEBA DE INDEPENDENCIA
 
+library(pacman)
+
+p_load(haven)
+
+datos <- read_sav("data/Social.sav")
+
+table(haven::as_factor(datos$Ciudad))
+
+table(as_factor(datos$P1), 
+      as_factor(datos$P2))
+
+###
+### Ho: No hay asociación entre la opinión de la situación del país y su situación económica
+### Ha: Existe asociación entre la opinión de la situación del país y su situación económica
+
+chisq.test(as_factor(datos$P1), 
+           as_factor(datos$P2))
+
+#- Como el p-value es 2x10^(-16) entonces hay suficiente evidencia para rechazar Ho
+
+glimpse(datos)
+
+###
+### Ho: La edad NO está asociada con la opinión de la situación económica del país
+### Ha: La edad SI está asociada con la opinión de la situación económica del país
+
+chisq.test(as_factor(datos$Edad),
+           as_factor(datos$P1))
+
+#Como p-value es 0.17, No hay evidencia suficiente para rechazar Ho
+
+chisq.test(as_factor(datos$Estrato),
+           as_factor(datos$P1))
+
+
+p_load(FactoMineR, factoextra, foreign)
+
+datos <- read.spss("data/Social.sav",
+                   use.value.labels = T,
+                   to.data.frame = T)
+entra <- datos %>% 
+         select(Estrato, Edad, P1, P2) %>% as_tibble()
+
+res <- MCA(entra, graph = T)
+
+
+
+###### EJERCICIO PÁG 380 - WALPOLE
+
+
+datos <- data.frame(
+  resistencia = c(88, 79, 84, 89, 81, 83, 82, 79, 82,
+                  85, 88, 80, 85, 87, 80, 78, 87, 90,
+                  83, 81,
+                  75, 77, 86, 84, 80, 78, 83, 76, 81,
+                  78, 78, 82, 80, 76, 85, 79, 80, 81, 
+                  77, 78),
+  aleacion = c(rep("A", 20), rep("B", 20))
+)
+
+
+
+
+
+
+
 
 
 
