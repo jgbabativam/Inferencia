@@ -214,8 +214,15 @@ distPer |>
 
 
 distPer |> 
-  get_p_value(obs_stat = observado, 
+  get_p_value(obs_stat = estim_puntual, 
               direction = "greater")
+
+
+#####---------------- PRUEBA U
+
+wilcox.test(formula = resistencia ~ aleacion,
+            data = datos,
+            alternative = "greater")
 
 
 
