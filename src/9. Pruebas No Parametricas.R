@@ -239,10 +239,14 @@ datos <- data.frame(
                 sexo == "Hombre" & between(id, 16, 42) ~ "Menos de 25 Hrs",
                 sexo == "Mujer" &  between(id, 43, 71) ~ "Más de 25 Hrs",
                 TRUE ~ "Menos de 25 Hrs"
-            )) 
+            )) |> 
+       mutate(horas = as.factor(horas))
 
 
 table(datos$horas, datos$sexo)
+
+####------ Ejercicio 10.100
+
 
 
 
