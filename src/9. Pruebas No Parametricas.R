@@ -152,6 +152,78 @@ Tcal = (xb[1] - xb[2])/(sqrt(sp2) * sqrt(1/n[1] + 1/n[2]))
 p.value = pt(Tcal, df = n[1] + n[2] - 2, lower.tail = FALSE)
 
 
+####--------- Intervalo de confianza
+
+#### Enfoque tradicional
+
+ic <- t.test(resistencia ~ aleacion,
+       alternative = "two.sided",
+       var.equal = TRUE, 
+       mu = 0,
+       conf.level = 0.95,
+       data = datos)
+
+ggplot() +
+  geom_function(fun = dt, args = list(df = 38)) +
+  xlim(-7, 7) +
+  geom_vline(xintercept = 0, linetype = 2, color = "blue") +
+  geom_vline(xintercept = ic$conf.int[1], linetype = 2) +
+  geom_vline(xintercept = ic$conf.int[2], linetype = 2) +
+  theme_classic()
+
+
+###### INTERVALO DE CONFIANZA POR BOOTSTRAP
+library(infer)
+
+distNull <- datos |> 
+           specify(formula = resistencia ~ aleacion) |> 
+           generate(reps = 10000, type = "bootstrap") |> 
+           calculate(stat = "diff in means",
+                     order = c("A", "B"))
+
+estim_puntual <- datos |> 
+                 observe(formula = resistencia ~ aleacion,
+                 stat = "diff in means",
+                 order = c("A", "B"))
+
+
+# Método del percentil
+
+ic_perc_diffm <- distNull |> 
+                 get_ci(level = 0.95, type = "percentile")
+
+distNull |> 
+  visualise() +
+  shade_ci(endpoints = ic_perc_diffm, color = "hotpink") +
+  geom_vline(xintercept = 0, linetype = 2)
+
+  
+# Prueba de permutación
+
+distPer <- datos |> 
+           specify(formula = resistencia ~ aleacion) |> 
+           hypothesise(null = "independence") |> 
+           generate(reps = 10000, type = "permute") |> 
+           calculate(stat = "diff in means",
+                     order = c("A", "B"))
+
+distPer |> 
+  visualise(bins = 10) +
+  shade_p_value(obs_stat = estim_puntual, direction = "greater") +
+  labs(title = "Distribución de permutación para la comparación entre la aleación A y B")
+
+
+distPer |> 
+  get_p_value(obs_stat = observado, 
+              direction = "greater")
+
+
+
+
+
+
+
+
 
 
 
