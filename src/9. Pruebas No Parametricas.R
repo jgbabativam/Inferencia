@@ -3,7 +3,7 @@ rm(list = ls())
 
 library(tidyverse)
 
-
+library(ggplot2)
 #################################################
 ### PRUEBAS PARA VERIFICAR LA NORMALIDAD
 
@@ -107,6 +107,16 @@ shapiro.test(datos$resistencia)
 
 # p-value = 0.2318, No hay evidencia para rechazar la hipótesis de normalidad
 
+####################################
+##### Comparación de las varianzas
+
+
+#--- Realice un boxplot para revisar la dispersión.
+
+
+datos %>% 
+  ggplot(aes(x = aleacion, y = resistencia)) +
+  geom_boxplot()
 
 
 
