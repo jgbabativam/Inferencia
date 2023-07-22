@@ -3,6 +3,10 @@ rm(list = ls())
 
 library(tidyverse)
 
+
+#################################################
+### PRUEBAS PARA VERIFICAR LA NORMALIDAD
+
 combust <- data.frame(x=c(11.5, 11.8, 12, 12.4, 12.5, 12.6, 
              12.8, 12.9, 13, 13.2)) %>% 
            mutate(Z = (x - 12)/1)
@@ -19,6 +23,14 @@ ks.test(combust$Z, "pnorm")
 shapiro.test(combust$x)
 #--- Como p-value es 0.70 entonces NO hay evidencia para rechazar Ho
 #--- EN conclusión se puede suponer que los datos se ajustan bien a una distribución normal
+
+
+###################################################
+####  PRUEBA DE INDEPENDENCIA
+
+
+
+
 
 
 
