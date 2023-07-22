@@ -3,7 +3,6 @@ rm(list = ls())
 
 library(tidyverse)
 
-library(ggplot2)
 #################################################
 ### PRUEBAS PARA VERIFICAR LA NORMALIDAD
 
@@ -116,11 +115,41 @@ shapiro.test(datos$resistencia)
 
 datos %>% 
   ggplot(aes(x = aleacion, y = resistencia)) +
-  geom_boxplot()
+  geom_boxplot(fill = "lightblue") +
+  stat_summary(stat = "mean", color = "red") +
+  labs(x = "Aleación") +
+  theme_bw()
+
+### Ho: \siga_A^2 = \sigma_B^2
+
+var.test(resistencia ~ aleacion,
+         data = datos)
+
+## Como p-value = 0.4709, no hay evidencia suficiente para rechazar Ho
+
+####---------PRUEBA DE MEDIAS
+
+t.test(resistencia ~ aleacion,
+       alternative = "greater",
+       var.equal = TRUE, 
+       mu = 0,
+       conf.level = 0.95,
+       data = datos)
+
+# Dado p-value = 0.0004671, hay suficiente evidencia para rechazar Ho
+
+## Manual
+
+xb <- tapply(datos$resistencia, datos$aleacion, mean)
+s2 <- tapply(datos$resistencia, datos$aleacion, var)
+n <- tapply(datos$resistencia, datos$aleacion, length)
+
+sp2 <- ((n[1]-1)*s2[1] + (n[2]-1)*s2[2])/(n[1]+n[2]-2)
 
 
+Tcal = (xb[1] - xb[2])/(sqrt(sp2) * sqrt(1/n[1] + 1/n[2]))
 
-
+p.value = pt(Tcal, df = n[1] + n[2] - 2, lower.tail = FALSE)
 
 
 
