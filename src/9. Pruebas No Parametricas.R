@@ -88,8 +88,24 @@ datos <- data.frame(
   aleacion = c(rep("A", 20), rep("B", 20))
 )
 
+#--- Gráficos para verificar normalidad.
+glimpse(datos)
 
+#---- directo par base R
+qqnorm(datos$resistencia)
 
+#---- Por ggplot
+
+datos %>% 
+  ggplot(aes(sample = resistencia)) +
+  stat_qq(distribution = stats::qnorm) +
+  stat_qq_line() +
+  theme_classic()
+
+  # Ho: La resistencia se distribuye normal
+shapiro.test(datos$resistencia)
+
+# p-value = 0.2318, No hay evidencia para rechazar la hipótesis de normalidad
 
 
 
