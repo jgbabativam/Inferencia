@@ -226,10 +226,23 @@ wilcox.test(formula = resistencia ~ aleacion,
 
 
 
+#######----- Ejercicio 10.87
 
 
+datos <- data.frame(
+     id = 1:90) |> 
+     mutate(sexo = factor(ifelse(id <= 42, 1, 2),
+                          levels = 1:2,
+                          labels = c("Hombre", "Mujer")),
+            horas = case_when(
+                sexo == "Hombre" & id <= 15 ~ "Más de 25 Hrs",
+                sexo == "Hombre" & between(id, 16, 42) ~ "Menos de 25 Hrs",
+                sexo == "Mujer" &  between(id, 43, 71) ~ "Más de 25 Hrs",
+                TRUE ~ "Menos de 25 Hrs"
+            )) 
 
 
+table(datos$horas, datos$sexo)
 
 
 
